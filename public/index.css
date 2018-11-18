@@ -6,6 +6,11 @@ html,body{
 body{
   text-align: center;
 }
+p{
+  font-family: 'Anton', sans-serif;
+  color: #fdcc2f;
+  font-size: 40px;
+}
 .pokeball{
   width: 300px;
   height: 100%;
@@ -21,5 +26,4 @@ body{
 .top,.mid,.bottom{
   width: 100%;
   height: 150px;
-  border: 1px solid black;
 }
