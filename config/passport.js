@@ -1,4 +1,5 @@
 // config/passport.js
+// creates a collection in Mongo with all users information
 
 // load all the things we need
 var LocalStrategy   = require('passport-local').Strategy;
@@ -6,7 +7,78 @@ var LocalStrategy   = require('passport-local').Strategy;
 // load up the user model
 var User       		= require('../app/models/user');
 
+var fieldsToValidValues = {
+  location: {
+    'East-Coast': true,
+    'West-Coast': true,
+    'South-Coast': true,
+    'Mid-West': true
+  },
+  month: {
+    'January': true,
+    'February': true,
+    'March': true,
+    'April': true,
+    'May': true,
+    'June': true,
+    'July': true,
+    'August': true,
+    'September': true,
+    'October': true,
+    'November': true,
+    'December': true
+  },
+  color: {
+    'red': true,
+    'orange': true,
+    'yellow': true,
+    'green': true,
+    'blue': true,
+    'violet': true,
+    'black': true
+  },
+  personality: {
+    'eat': true,
+    'tempered': true,
+    'persistent': true,
+    'curious': true,
+    'lose': true,
+    'sarcastic': true
+  },
+  activity1: {
+    'sports': true,
+    'music': true,
+    'gym': true,
+    'games': true,
+    'hiking': true,
+    'cooking': true
+  },
+  activity2: {
+    'sports': true,
+    'music': true,
+    'gym': true,
+    'games': true,
+    'hiking': true,
+    'cooking': true
+  }
+};
+
+function isValid(fieldName, val) {
+  return !!fieldsToValidValues[fieldName][val];
+}
+
+function allFieldsValid(req) {
+  let ok = true;
+  Object.keys(fieldsToValidValues).forEach(l => {
+    if (!isValid(l, req.body[l])) {
+      ok = false;
+    }
+  });
+  return ok;
+}
+
 // expose this function to our app using module.exports
+// exports a fucntion
 module.exports = function(passport) {
 
 	// =========================================================================
@@ -40,7 +112,6 @@ module.exports = function(passport) {
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) {
-
 		// find a user whose email is the same as the forms email
 		// we are checking to see if the user trying to login already exists
         User.findOne({ 'local.email' :  email }, function(err, user) {
@@ -51,13 +122,33 @@ module.exports = function(passport) {
             // check to see if theres already a user with that email
             if (user) {
                 return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
-            } else {
+            }
+            else if (!allFieldsValid(req)) {
+                return done(null, false, req.flash('signupMessage', 'Missing required fields.'));
+            }
+             else {
 
 				// if there is no user with that email
                 // create the user
                 var newUser            = new User();
 
                 // set the user's local credentials
+                newUser.team = {
+                  poke1: '',
+                  poke2: '',
+                  poke3: '',
+                  poke4: '',
+                  poke5: '',
+                  poke6: ''
+                }
+                newUser.stats = {
+                  location: req.body.location,
+                  month: req.body.month,
+                  color: req.body.color,
+                  personality: req.body.personality,
+                  activity1: req.body.activity1,
+                  activity2: req.body.activity2
+                };
                 newUser.local.email    = email;
                 newUser.local.password = newUser.generateHash(password); // use the generateHash function in our user model
 

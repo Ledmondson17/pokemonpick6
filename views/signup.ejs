@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>21 Savage Fan Site</title>
+    <title>Poké Training Camp</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
@@ -15,17 +15,90 @@
     <% if (message.length > 0) { %>
         <div class="alert alert-danger"><%= message %></div>
     <% } %>
-
+    <img class="userpic" src="http://livedoor.blogimg.jp/pokenews/imgs/e/2/e25f35ad-s.jpg" alt="">
     <!-- LOGIN FORM -->
     <form action="/signup" method="post">
         <div class="form-group">
-            <label>Email</label>
+            <label>Username</label>
             <input type="text" class="form-control" name="email">
         </div>
         <div class="form-group">
             <label>Password</label>
             <input type="password" class="form-control" name="password">
         </div>
+        <div class="form-group">
+          <select id="coast" name="location">
+            <option value="Select-Location"class="location">Location</option>
+            <option value="East-Coast"class="east">East Coast</option>
+            <option value="West-Coast"class="west">West Coast</option>
+            <option value="South-Coast"class="south">South</option>
+            <option value="Mid-West"class="mid">Mid West</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <select id="month" name="month">
+            <option value="month">What Month Were You Born</option>
+            <option value="January" class="January">January</option>
+            <option value="February" class="February">February</option>
+            <option value="March"class="March">March</option>
+            <option value="April"class="April">April</option>
+            <option value="May"class="May">May</option>
+            <option value="June"class="June">June</option>
+            <option value="July"class="July">July</option>
+            <option value="August"class="August">August</option>
+            <option value="September"class="September">September</option>
+            <option value="October"class="October">October</option>
+            <option value="November"class="November">November</option>
+            <option value="December"class="December">December</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <select  id="color" name="color">
+            <option value="select-Color">Color</option>
+            <option value="red" class="red">Red</option>
+            <option value="orange" class="orange">Orange</option>
+            <option value="yellow"class="yellow">Yellow</option>
+            <option value="green"class="green">Green</option>
+            <option value="blue"class="blue">Blue</option>
+            <option value="violet"class="violet">Violet</option>
+            <option value="black"class="black">Black</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <select  id="personality" name="personality">
+            <option value="selectPersonality">Personality</option>
+            <option value="eat"class="eat">Like to eat</option>
+            <option value="tempered"class="tempered">I'm quick tempered</option>
+            <option value="persistent"class="persistent">I'm highly persistent</option>
+            <option value="curious"class="curious">I'm very curious</option>
+            <option value="lose"class="lose">I'm very competetive</option>
+            <option value="sarcastic"class="sarcastic">I'm very sarcastic</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <select  id="activity1" name="activity1">
+            <option value="select Activity">Activity</option>
+            <option value="sports"class="sport">Sports</option>
+            <option value="music"class="music">Music</option>
+            <option value="gym"class="gym">Exercise</option>
+            <option value="games"class="games">Video Games</option>
+            <option value="hiking"class="hiking">Exploring Nature</option>
+            <option value="cooking"class="cooking">Cooking</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <select  id="activity2" name="activity2">
+            <option value="select Activity">Activity</option>
+            <option value="sports"class="sport">Sports</option>
+            <option value="music"class="music">Music</option>
+            <option value="gym"class="gym">Exercise</option>
+            <option value="games"class="games">Video Games</option>
+            <option value="hiking"class="hiking">Exploring Nature</option>
+            <option value="cooking"class="cooking">Cooking</option>
+          </select>
+        </div>
+
+
 
         <button type="submit" class="btn btn-warning btn-lg">Signup</button>
     </form>

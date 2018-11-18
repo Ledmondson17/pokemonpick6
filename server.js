@@ -13,20 +13,23 @@ var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
-
+var ObjectId     = require('mongodb').ObjectID
+// go to config folder, find database.js (exports an object with username and pw for database)
 var configDB = require('./config/database.js');
 
 var db
 
 // configuration ===============================================================
+//connects to database, returns database
 mongoose.connect(configDB.url, { useMongoClient: true }, (err, database) => {
   if (err) return console.log(err)
   db = database
-  require('./app/routes.js')(app, passport, db);
+  // function call from app/routes, app(express), passport(login), and db are arguments
+  require('./app/routes.js')(app, passport, db, ObjectId);
 }); // connect to our database
 
 
-
+// function call
 require('./config/passport')(passport); // pass passport for configuration
 
 // set up our express application
@@ -34,13 +37,13 @@ app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'))
+app.use(express.static('public')) // no longer need individual routes for client side files
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
 // required for passport
 app.use(session({
-    secret: 'rcbootcamp2018a', // session secret
+    secret: 'rcbootcamp2018a', // session secret, enables you keep a logged in user
     resave: true,
     saveUninitialized: true
 }));

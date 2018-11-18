@@ -24,7 +24,8 @@
                 <% if (user.local.email) { %>
                     <p>
                         <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
+                        <span id="user"> <%= user._id %></span>
+                        <strong>UserName</strong>: <%= user.local.email %><br>
                         <strong>password</strong>: <%= user.local.password %>
                     </p>
 
@@ -36,13 +37,13 @@
             </div>
         </div>
         <div class="col-sm-6">
-          <h3>Messages</h3>
+          <h3>Pending Orders</h3>
           <ul class="messages">
           <% for(var i=0; i<messages.length; i++) {%>
             <li class="message">
               <span><%= messages[i].name %></span>
               <span><%= messages[i].msg %></span>
-              <span><%= messages[i].thumbUp %></span>
+              <span><%= messages[i].complete %></span>
               <span><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
               <span><i class="fa fa-thumbs-down" aria-hidden="true"></i></span>
               <span><i class="fa fa-trash" aria-hidden="true"></i></span>
@@ -50,7 +51,7 @@
           <% } %>
           </ul>
 
-          <h2>Add a message</h2>
+          <h2>Completed Orders</h2>
         <% if (user.local.email) { %>
           <form action="/messages" method="POST">
             <input type="text" value="<%= user.local.email %>" name="name">
@@ -61,6 +62,39 @@
         <% } %>
 
 </div>
+<div class="stats">
+  <ul>
+    <li>Location: <span id="location"><%= user.stats.location %></span></li>
+    <li>Bday Month: <span id="month"><%= user.stats.month %></span></li>
+    <li>Favorite Color: <span id="color"><%= user.stats.color %></span></li>
+    <li>Personality: <span id="personality"><%= user.stats.personality %></span></li>
+    <li>Activity 1: <span id="activity1"><%= user.stats.activity1 %></span></li>
+    <li>Activity 2: <span id="activity2"><%= user.stats.activity2 %></span></li>
+  </ul>
+</div>
+
+<section class="containerTwo">
+    <h1>Your Team:</h1>
+    <section class="poke1 pokemonDisplay">
+
+    </section>
+    <section class="poke2 pokemonDisplay">
+
+    </section>
+    <section class="poke3 pokemonDisplay">
+
+    </section>
+    <section class="poke4 pokemonDisplay">
+
+    </section>
+    <section class="poke5 pokemonDisplay">
+
+    </section>
+    <section class="poke6 pokemonDisplay">
+
+    </section>
+    <button id="save">Save</button>
+  </section>
 
 <script src="main.js"></script>
 

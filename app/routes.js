@@ -1,4 +1,5 @@
-module.exports = function(app, passport, db) {
+// exports a function, holding api
+module.exports = function(app, passport, db, ObjectId) {
 
 // normal routes ===============================================================
 
@@ -9,13 +10,14 @@ module.exports = function(app, passport, db) {
 
     // PROFILE SECTION =========================
     app.get('/profile', isLoggedIn, function(req, res) {
-        db.collection('messages').find().toArray((err, result) => {
+        db.collection('orders').find().toArray((err, result) => {
           if (err) return console.log(err)
           res.render('profile.ejs', {
             user : req.user,
             messages: result
           })
         })
+        console.log(req.user.stats)
     });
 
     // LOGOUT ==============================
@@ -24,25 +26,50 @@ module.exports = function(app, passport, db) {
         res.redirect('/');
     });
 
-// message board routes ===============================================================
+// cashier orders routes =============================================
 
-    app.post('/messages', (req, res) => {
-      db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
+    app.post('/', (req, res) => {
+      db.collection('orders').save({name: req.body.cust, msg: req.body.order, complete: false}, (err, result) => {
         if (err) return console.log(err)
+        console.log(req.body);
         console.log('saved to database')
         res.redirect('/profile')
       })
     })
 
-    app.put('/messages', (req, res) => {
-      db.collection('messages')
+
+    app.put('/profile', isLoggedIn, function(req, res) {
+      db.collection('orders')
       .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
         $set: {
-          thumbUp:req.body.thumbUp + 1
+          complete:true
         }
       }, {
         sort: {_id: -1},
         upsert: true
+      }, (err, result) => {
+        if (err) return res.send(err)
+        res.send(result)
+      })
+    })
+    app.put('/save', isLoggedIn, function(req, res) {
+      console.log(req.body)
+      let uId = ObjectId(req.session.passport.user)
+      db.collection('users')
+      .findOneAndUpdate({"_id": uId}, {
+        $set: {
+          team:{
+            poke1: req.body.poke1,
+            poke2: req.body.poke2,
+            poke3: req.body.poke3,
+            poke4: req.body.poke4,
+            poke5: req.body.poke5,
+            poke6: req.body.poke6
+          }
+        }
+      }, {
+        sort: {_id: -1},
+        upsert: false
       }, (err, result) => {
         if (err) return res.send(err)
         res.send(result)
